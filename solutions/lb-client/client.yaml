@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: greeter-client
+    k8s-app-project: demo
+  name: greeter-client
+spec:
+  selector:
+    matchLabels:
+      k8s-app: greeter-client
+      k8s-app-project: demo
+  template:
+    metadata:
+      labels:
+        k8s-app: greeter-client
+        k8s-app-project: demo
+      name: greeter-client
+    spec:
+      containers:
+        - command:
+            - /client/app
+          args:
+            - --address
+            - greeter-server.default.svc:50051
+            - --timeout
+            - "2"
+          env:
+            - name: GRPC_GO_RETRY
+              value: "on"
+          image: yeqown/lb-client.client:v1.2.0
+          imagePullPolicy: Always
+          name: client
+          resources:
+            limits:
+              cpu: "0.1"
+              memory: 100Mi
+            requests:
+              cpu: "0.1"
+              memory: 100Mi
+      restartPolicy: Always
