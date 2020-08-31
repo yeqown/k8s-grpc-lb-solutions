@@ -22,7 +22,7 @@ spec:
             - /client/app
           args:
             - --address
-            - dns:///greeter-server.default.svc:50051 # grpc 客户端 LB 需要
+            - greeter-server.default.svc:50051 # grpc 客户端 LB 需要
             - --timeout
             - "2"
           env:
