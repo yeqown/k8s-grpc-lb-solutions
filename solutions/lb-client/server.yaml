@@ -21,7 +21,7 @@ spec:
       containers:
         - command:
             - /server/app
-          image: yeqown/lb-client.server:v1.0.0
+          image: yeqown/lb-client.server:v1.3.0
           imagePullPolicy: IfNotPresent
           name: server
           resources:

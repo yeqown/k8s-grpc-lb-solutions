@@ -22,13 +22,13 @@ spec:
             - /client/app
           args:
             - --address
-            - greeter-server.default.svc:50051
+            - dns:///greeter-server.default.svc:50051 # grpc 客户端 LB 需要
             - --timeout
             - "2"
           env:
             - name: GRPC_GO_RETRY
               value: "on"
-          image: yeqown/lb-client.client:v1.2.0
+          image: yeqown/lb-client.client:v1.3.0
           imagePullPolicy: Always
           name: client
           resources:

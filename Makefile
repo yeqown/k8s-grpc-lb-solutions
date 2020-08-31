@@ -1,4 +1,4 @@
-TAG=v1.2.0
+TAG=v1.3.0
 
 build-client:
 	docker build -t "yeqown/lb-client.client:${TAG}" . -f client.Dockerfile
