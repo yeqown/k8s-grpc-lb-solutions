@@ -9,6 +9,7 @@ import (
 	"time"
 
 	pb "github.com/yeqown/k8s-grpc-lb-solutions/proto"
+	_ "github.com/yeqown/k8s-grpc-lb-solutions/resolver"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/backoff"
@@ -26,7 +27,7 @@ func init() {
 	log.SetOutput(os.Stdout)
 
 	flag.IntVar(&timeout, "timeout", 1, "greet rpc call timeout")
-	flag.StringVar(&address, "address", "localhost:50051", "grpc server addr")
+	flag.StringVar(&address, "address", "hack:///simple-server", "grpc server addr")
 }
 
 //var tplServiceConfig = `{"LoadBalancingPolicy": "%s","MethodConfig": [{"Name": [{"Service": "hello.Greeter"}], "RetryPolicy": {"MaxAttempts":2, "InitialBackoff": "0.1s", "MaxBackoff": "1s", "BackoffMultiplier": 2.0, "RetryableStatusCodes": ["UNAVAILABLE"]}}]}`
@@ -38,7 +39,7 @@ func bootstrap() error {
 	// Set resolver
 	//resolver.SetDefaultScheme("custom_dns")
 
-	log.Println("connecting to:", address)
+	log.Println("try to connect on:", address)
 
 	bc := backoff.DefaultConfig
 	bc.MaxDelay = time.Second
@@ -47,12 +48,12 @@ func bootstrap() error {
 		address,
 		grpc.WithInsecure(),
 		grpc.WithBlock(),
+		// grpc.WithResolvers(resolver.NewBuilder()),
 		grpc.WithDefaultServiceConfig(fmt.Sprintf(tplServiceConfig, roundrobin.Name)),
-		grpc.WithConnectParams(grpc.ConnectParams{
-			Backoff: bc,
-		}))
+		//grpc.WithConnectParams(grpc.ConnectParams{Backoff: bc}),
+	)
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		log.Fatalf("could not connect to server, err=%v", err)
 	}
 
 	c = pb.NewGreeterClient(conn)

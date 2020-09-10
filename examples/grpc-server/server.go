@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
 	"math/rand"
 	"net"
@@ -13,11 +14,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-const (
-	port = ":50051"
+var (
+	d    time.Duration
+	port string
 )
-
-var d time.Duration
 
 // server is used to implement hello.GreeterServer.
 type server struct{}
@@ -29,8 +29,10 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 func main() {
-	log.SetOutput(os.Stdout)
+	flag.StringVar(&port, "port", ":50051", "default port")
+	flag.Parse()
 
+	log.SetOutput(os.Stdout)
 	log.Println("server running")
 
 	// simulate busy server
