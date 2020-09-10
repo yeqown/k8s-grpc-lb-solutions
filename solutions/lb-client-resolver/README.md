@@ -1,3 +1,10 @@
+## Client Resolver and LB
+
+`Resolver` can update Endpoints in client then distribute by LB policy.
+
+Here is an example:
+
+```go
 package resolver
 
 import (
@@ -56,3 +63,4 @@ func (h hackResolveBuilder) Scheme() string {
 func NewBuilder() hackResolveBuilder {
 	return hackResolveBuilder{}
 }
+```
