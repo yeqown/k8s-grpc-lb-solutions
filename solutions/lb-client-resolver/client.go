@@ -27,7 +27,7 @@ func init() {
 	log.SetOutput(os.Stdout)
 
 	flag.IntVar(&timeout, "timeout", 1, "greet rpc call timeout")
-	flag.StringVar(&address, "address", "hack:///simple-server", "grpc server addr")
+	flag.StringVar(&address, "address01", "hack:///simple-server", "grpc server addr")
 }
 
 //var tplServiceConfig = `{"LoadBalancingPolicy": "%s","MethodConfig": [{"Name": [{"Service": "hello.Greeter"}], "RetryPolicy": {"MaxAttempts":2, "InitialBackoff": "0.1s", "MaxBackoff": "1s", "BackoffMultiplier": 2.0, "RetryableStatusCodes": ["UNAVAILABLE"]}}]}`
@@ -36,19 +36,16 @@ var tplServiceConfig = `{"LoadBalancingPolicy": "%s"}`
 func bootstrap() error {
 	flag.Parse()
 
-	// Set resolver
-	//resolver.SetDefaultScheme("custom_dns")
-
 	log.Println("try to connect on:", address)
 
 	bc := backoff.DefaultConfig
 	bc.MaxDelay = time.Second
+
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(
 		address,
 		grpc.WithInsecure(),
 		grpc.WithBlock(),
-		// grpc.WithResolvers(resolver.NewBuilder()),
 		grpc.WithDefaultServiceConfig(fmt.Sprintf(tplServiceConfig, roundrobin.Name)),
 		//grpc.WithConnectParams(grpc.ConnectParams{Backoff: bc}),
 	)

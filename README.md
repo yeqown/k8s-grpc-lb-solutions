@@ -20,7 +20,7 @@ LoadBalancer solutions in kubernetes, includes demo code and solution detail
 
 * [gRPC Server LoadBalancing proxy](./solutions/lb-proxy-mesh/README.md)
     
-    * advantages：
+    * advantages:
         
         * Keep client simple and no changes. 
     
@@ -30,6 +30,12 @@ LoadBalancer solutions in kubernetes, includes demo code and solution detail
         
         * Need to maintain `LoadBalancing` proxy 
 
+* [gRPC Client Resolver](./solutions/lb-client-resolver/README.md)
+    
+     * advantages：
+     
+     * disadvantages:
+    
 ### References
 
 * https://www.youtube.com/watch?v=F2znfxn_5Hg

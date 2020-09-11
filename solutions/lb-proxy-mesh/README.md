@@ -1,5 +1,7 @@
 ## lb-proxy-mesh
 
+This is a way to LoadBalancing with porxy pattern using `Linkerd`. Linkerd could inject inject
+
 ### Linkerd Introduction
 
 > Linkerd is a service mesh for Kubernetes. It makes running services easier and safer by giving you runtime debugging, observability, reliability, and security—all without requiring any changes to your code.
