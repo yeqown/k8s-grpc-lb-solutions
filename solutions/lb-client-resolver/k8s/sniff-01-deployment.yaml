@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: sniff01
+    k8s-app-project: grpclb
+  name: sniff01
+spec:
+  selector:
+    matchLabels:
+      k8s-app: sniff01
+      k8s-app-project: grpclb
+  template:
+    metadata:
+      labels:
+        k8s-app: sniff01
+        k8s-app-project: grpclb
+      name: sniff01
+    spec:
+      containers:
+        - command:
+            - /app/sniff
+          args:
+            - -address01
+            - greeter-server.default.svc:50051 # grpc 客户端 LB 需要
+          image: yeqown/sniff:v0.0.1
+          imagePullPolicy: IfNotPresent
+          name: client
+          resources:
+            limits:
+              cpu: "0.1"
+              memory: 100Mi
+            requests:
+              cpu: "0.1"
+              memory: 100Mi
+      restartPolicy: Always
